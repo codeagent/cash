@@ -5,10 +5,13 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id'           => 'basic',
     'basePath'     => dirname(__DIR__),
-    'bootstrap'    => ['log'],
+    'bootstrap'    => ['log', 'api'],
     'homeUrl'      => 'login',
     'defaultRoute' => 'login',
     'language'     => 'ru',
+    'modules'        => [
+        'api' => 'api\Module'
+    ],
     'components'   => [
         'request'      => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -66,18 +69,22 @@ $config = [
                 ],
             ],
         ],
-//
-//        'urlManager' => [
-//            'enablePrettyUrl' => true,
-//            'enableStrictParsing' => true,
-//            'showScriptName' => false,
-//            'rules' => [
-//                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/operation'],
-//            ],
-//        ],
+
+        'urlManager' => [
+            'enablePrettyUrl'     => true,
+            'enableStrictParsing' => true,
+            'showScriptName'      => false,
+            'rules'               => [
+                ''                      => 'login/login',
+                '<controller:(login|user|admin)>/<action>' => "<controller>/<action>",
+            ],
+        ],
 
     ],
     'params'       => $params,
+    'aliases'        => [
+        '@api' => '@app/modules/api'
+    ]
 ];
 
 if(YII_ENV_DEV) {
